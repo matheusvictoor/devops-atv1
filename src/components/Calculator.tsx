@@ -2,9 +2,10 @@ import { useState } from "react";
 
 export const Calculator = () => {
   const [display, setDisplay] = useState("0");
-  const [previousValue, setPreviousValue] = useState(null);
+  const [previousValue, setPreviousValue] = useState<null | number>(null);
   const [operation, setOperation] = useState(null);
   const [waitingForOperand, setWaitingForOperand] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const Button = ({ onClick, className, children }) => (
     <button
@@ -15,7 +16,23 @@ export const Calculator = () => {
     </button>
   );
 
+  const showError = (message) => {
+    console.error(`Erro: ${message}`)
+    
+    setDisplay(message);
+    setHasError(true);
+    setPreviousValue(null);
+    setOperation(null);
+    setWaitingForOperand(false);
+  };
+
   const inputNumber = (num) => {
+    if (hasError) {
+      setDisplay(String(num));
+      setHasError(false);
+      return;
+    }
+
     if (waitingForOperand) {
       setDisplay(String(num));
       setWaitingForOperand(false);
@@ -25,6 +42,8 @@ export const Calculator = () => {
   };
 
   const inputDecimal = () => {
+    if (hasError) return;
+
     if (waitingForOperand) {
       setDisplay("0.");
       setWaitingForOperand(false);
@@ -40,6 +59,7 @@ export const Calculator = () => {
     setPreviousValue(null);
     setOperation(null);
     setWaitingForOperand(false);
+    setHasError(false);
   };
 
   const calculate = (firstValue, secondValue, op) => {
@@ -51,6 +71,10 @@ export const Calculator = () => {
       case "*":
         return firstValue * secondValue;
       case "/":
+        if (secondValue === 0) {
+          showError("Divisão por zero");
+          return null;
+        }
         return firstValue / secondValue;
       default:
         return secondValue;
@@ -58,12 +82,19 @@ export const Calculator = () => {
   };
 
   const performOperation = (nextOperation) => {
+    if (hasError) return;
+
     const inputValue = parseFloat(display);
 
     if (previousValue === null) {
       setPreviousValue(inputValue);
     } else if (operation) {
       const result = calculate(previousValue, inputValue, operation);
+
+      if (result === null) return;
+
+      console.log(`Log: ${previousValue} ${operation} ${inputValue} = ${result}`);
+
       setDisplay(String(result));
       setPreviousValue(result);
     }
@@ -73,9 +104,16 @@ export const Calculator = () => {
   };
 
   const handleEqual = () => {
+    if (hasError) return;
+
     const inputValue = parseFloat(display);
     if (operation && previousValue !== null) {
       const result = calculate(previousValue, inputValue, operation);
+
+      if (result === null) return;
+
+      console.log(`Log: ${previousValue} ${operation} ${inputValue} = ${result}`);
+
       setDisplay(String(result));
       setPreviousValue(null);
       setOperation(null);
@@ -87,7 +125,11 @@ export const Calculator = () => {
     <div className="max-w-sm mx-auto bg-gray-900 p-6 rounded-2xl shadow-2xl">
       <div className="mb-4">
         <div className="bg-gray-800 rounded-lg p-4 text-right">
-          <div className="text-3xl font-mono text-white overflow-hidden">
+          <div
+            className={`text-3xl font-mono overflow-hidden ${
+              hasError ? "text-red-400" : "text-white"
+            }`}
+          >
             {display}
           </div>
         </div>
