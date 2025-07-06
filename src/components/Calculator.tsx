@@ -91,6 +91,8 @@ export const Calculator = () => {
 
       if (result === null) return;
 
+      console.log(`Log: ${previousValue} ${operation} ${inputValue} = ${result}`);
+
       setDisplay(String(result));
       setPreviousValue(result);
     }
@@ -107,6 +109,8 @@ export const Calculator = () => {
       const result = calculate(previousValue, inputValue, operation);
 
       if (result === null) return;
+
+      console.log(`Log: ${previousValue} ${operation} ${inputValue} = ${result}`);
 
       setDisplay(String(result));
       setPreviousValue(null);
