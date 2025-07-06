@@ -1,4 +1,4 @@
-# 🧮 Calculadora Aritmética
+# Calculadora Aritmética
 
 Projeto desenvolvido como parte da atividade de DevOps, seguindo a estratégia de branching Git Flow, Conventional Commits e changelog automatizado.
 
