@@ -17,6 +17,8 @@ export const Calculator = () => {
   );
 
   const showError = (message) => {
+    console.error(`Erro: ${message}`)
+    
     setDisplay(message);
     setHasError(true);
     setPreviousValue(null);
