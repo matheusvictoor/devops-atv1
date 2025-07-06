@@ -18,18 +18,24 @@ Projeto desenvolvido como parte da atividade de DevOps, seguindo a estratégia d
 ### 1. Clone o repositório
 
 ```bash
-git clone git@github.com:devops-ensino/atv1-matheusvictoor.git
-cd atv1-matheusvictoor
+git clone git@github.com:matheusvictoor/devops-atv1.git
+cd devops-atv1
 ```
 
-### 2. Instale as dependências
+### 2. Instale as dependências:
 
-```bash
+```Bash
 npm install
 ```
 
-### 3. Inicie o servidor de desenvolvimento
+### 3. Inicie o servidor de desenvolvimento:
 
-```bash
+```Bash
 npm run dev
+```
+`A aplicação estará disponível no seu navegador em http://localhost:5173.`
+
+### 4. Rodar os testes
+```Bash
+npm run test
 ```
