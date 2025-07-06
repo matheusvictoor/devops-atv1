@@ -126,6 +126,7 @@ export const Calculator = () => {
       <div className="mb-4">
         <div className="bg-gray-800 rounded-lg p-4 text-right">
           <div
+            data-testid="calculator-display"
             className={`text-3xl font-mono overflow-hidden ${
               hasError ? "text-red-400" : "text-white"
             }`}
